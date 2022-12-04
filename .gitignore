@@ -1,0 +1,6 @@
+# log and config files
+log.log
+config.json
+
+/data
+__pycache__/
