@@ -1,4 +1,5 @@
 import logging
+import my_tools
 
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
@@ -10,12 +11,9 @@ sh.setFormatter(formatter)
 logger.addHandler(sh)
 
 # 创建一个handler，用于写入日志文件
-fh = logging.FileHandler('log.log')
+fh = logging.FileHandler(my_tools.get_config()['path_log_file'])
 fh.setFormatter(formatter)
 logger.addHandler(fh)
-
-# 记录一条日志
-logger.debug('debug message')
 
 def get_logger():
     return logger

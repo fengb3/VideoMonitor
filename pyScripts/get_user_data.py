@@ -4,17 +4,20 @@ import time
 from bilibili_api import video
 import my_tools
 import my_loggger
+import logging
 
+logger = logging.getLogger()
 
 async def main():
 
-    my_loggger.log("开始获取用户信息")
+    logger.info('开始获取用户数据')
+    # my_loggger.log("开始获取用户信息")
 
     for u in my_tools.get_users():
 
         # 获取当前时间戳
         t = time.time()
-        my_loggger.log("当前时间: ",time.asctime(time.localtime(t)))
+        logger.info("当前时间: " + time.asctime(time.localtime(t)))
 
         # 当前用户的 关系
         user_info = await my_tools.get_user_info_and_write_to_file(user = u, current_time = int(t))
@@ -25,7 +28,7 @@ async def main():
             my_tools.write_video_info_to_file(user=u, bvid=bvid, info=await v.get_info(), current_time=int(t))
             sleep(1)
     
-    my_loggger.log("获取用户信息结束")
+    logger.info('获取用户数据完成')
 
 
 if __name__ == '__main__':

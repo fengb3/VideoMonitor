@@ -2,7 +2,9 @@ import json
 import os
 import time
 from bilibili_api import user
-import my_loggger
+import logging
+
+logger = logging.getLogger()
 
 def get_config():
     '''
@@ -41,7 +43,7 @@ async def get_my_video_bvids(user):
     for video in videos['list']['vlist']:
         bvids.append(video['bvid'])
 
-    my_loggger.log(str(user.get_uid()),"\n 获取到bvids: ", bvids)
+    logger.info(str(user.get_uid()) + "\n 获取到bvids: " + bvids)
 
     return bvids
 
@@ -79,7 +81,7 @@ async def get_user_info_and_write_to_file(user, current_time = int(time.time()))
         'bvids': bvids
     }
 
-    my_loggger.log("获取到", obj['user_info']['name'], "的信息")
+    logger.info("获取到 " + obj['user_info']['name'] + " 的信息")
 
     dir = c['path_data'] + "\\" + str(user.get_uid()) +"\\"+c['path_user_info']
 
@@ -88,7 +90,7 @@ async def get_user_info_and_write_to_file(user, current_time = int(time.time()))
 
     path = dir + "\\" + str(current_time) + c['surfix_user_info_file']
 
-    my_loggger.log("写入文件: ", path)
+    logger.info("写入文件: " + path)
     with open(path,'w') as f:
         f.write(json.dumps(obj, indent=4))
 
@@ -104,7 +106,7 @@ def read_bvids_from_file(user):
     dir = c['path_data'] + "\\" + str(user.get_uid())
 
     if not os.path.exists(dir):
-        my_loggger.log(dir + "文件夹不存在, 无法读取bvids")
+        logger.info(dir + " 文件夹不存在, 无法读取bvids")
 
     path = dir + "\\" + c['surfix_bvids_file']
     with open(path, 'r') as f:
@@ -131,7 +133,7 @@ def write_video_info_to_file(user, bvid, info, current_time = int(time.time())):
 
     path = dir + "\\" + str(current_time) + c['surfix_video_info_file']
 
-    my_loggger.log("写入文件: ", path)
+    logger.info("写入文件: "+ path)
     with open(path, 'w') as f:
         info = json.dumps(info, indent=4)
         f.write(info)
