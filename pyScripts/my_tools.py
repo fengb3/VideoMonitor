@@ -6,6 +6,7 @@ import logging
 
 logger = logging.getLogger()
 
+
 def get_config():
     '''
     读取配置文件
@@ -16,12 +17,14 @@ def get_config():
 
     return c
 
+
 def get_users():
     '''
     获取用户列表
     '''
     c = get_config()
     return [user.User(userId) for userId in c['uids']]
+
 
 def get_user(index=0):
     '''
@@ -47,7 +50,8 @@ async def get_my_video_bvids(user):
 
     return bvids
 
-def write_bvids_to_file(user,bvids):
+
+def write_bvids_to_file(user, bvids):
     '''
     将bvid列表写入文件
     '''
@@ -65,25 +69,26 @@ def write_bvids_to_file(user,bvids):
         bvids = json.dumps(bvids)
         f.write(bvids)
 
-async def get_user_info_and_write_to_file(user, current_time = int(time.time())):
-    '''
+
+async def get_user_info_and_write_to_file(user, current_time=int(time.time())):
+    """
     获取用户关系信息并写入文件
-    '''
+    """
     c = get_config()
     videos_info = await user.get_videos()
-    releation_info = await user.get_relation_info()
+    relation_info = await user.get_relation_info()
     user_info = await user.get_user_info()
     bvids = [video['bvid'] for video in videos_info['list']['vlist']]
 
     obj = {
         'user_info': user_info,
-        'releation_info': releation_info,
+        'relation_info': relation_info,
         'bvids': bvids
     }
 
     logger.info("获取到 " + obj['user_info']['name'] + " 的信息")
 
-    dir = c['path_data'] + "\\" + str(user.get_uid()) +"\\"+c['path_user_info']
+    dir = c['path_data'] + "\\" + str(user.get_uid()) + "\\" + c['path_user_info']
 
     if not os.path.exists(dir):
         os.makedirs(dir)
@@ -91,7 +96,7 @@ async def get_user_info_and_write_to_file(user, current_time = int(time.time()))
     path = dir + "\\" + str(current_time) + c['surfix_user_info_file']
 
     logger.info("写入文件: " + path)
-    with open(path,'w') as f:
+    with open(path, 'w') as f:
         f.write(json.dumps(obj, indent=4))
 
     return obj
@@ -116,12 +121,12 @@ def read_bvids_from_file(user):
     return bvids
 
 
-
 async def get_video_info(bvid):
     video = video.Video(bvid)
     return await video.get_info()
 
-def write_video_info_to_file(user, bvid, info, current_time = int(time.time())):
+
+def write_video_info_to_file(user, bvid, info, current_time=int(time.time())):
     '''
     将视频信息写入文件
     '''
@@ -133,10 +138,11 @@ def write_video_info_to_file(user, bvid, info, current_time = int(time.time())):
 
     path = dir + "\\" + str(current_time) + c['surfix_video_info_file']
 
-    logger.info("写入文件: "+ path)
+    logger.info("写入文件: " + path)
     with open(path, 'w') as f:
         info = json.dumps(info, indent=4)
         f.write(info)
+
 
 def get_current_time():
     return int(time.time())
