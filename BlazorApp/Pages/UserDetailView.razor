@@ -1,0 +1,149 @@
+@page "/user/{Uid:int}"
+
+@using Model
+@using MyLib.DataManagement
+@using MyLib.Helper
+@using MyLib.Tool
+@* <h3>UserDetailView</h3>  *@
+
+@code {
+
+    [Parameter]
+    public int Uid { get; set; }
+
+    private User? User { get; set; }
+
+    private IEnumerable<Video> Videos { get; set; }
+
+    private Dictionary<string, VideoRecord?> MostRecenentRecords { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        User = DatabaseHandler.Instance.GetData<User>(u => u.Uid == Uid);
+        Videos = DatabaseHandler.Instance.GetAllData<Video>().Where(v => v.AuthorId == User.Uid);
+
+        MostRecenentRecords = new();
+
+        foreach (var video in Videos)
+        {
+            var bvid = video.BvId;
+
+            VideoRecord? mostRecent;
+
+            var mostRecentVrId = video.MostRecentVideoRecordId;
+
+            if (mostRecentVrId == 0)
+            {
+                mostRecent = new();
+            }
+            else
+            {
+                mostRecent = DatabaseHandler.Instance.GetData<VideoRecord>(record => record.VrId == mostRecentVrId);
+            }
+
+    // var mostRecent = DatabaseHandler.Instance.GetAllData<VideoRecord>().Where(vr => vr.BvId == bvid).OrderByDescending(vr => vr.Date).FirstOrDefault();
+
+            MostRecenentRecords.Add(bvid, mostRecent);
+        }
+
+        base.OnParametersSet();
+    }
+
+    // private static void GoToVideoStatistic(string bvid)
+    // {
+    //     NavigationManager.Instance.NavigateTo($"video/statistic/{bvid}");
+    // }
+
+}
+
+<div style="padding: 0 10rem;">
+    @* <h1>@User?.Name </h1> *@
+    <div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr;">
+            <Avatar Size="10rem" Src="@($"https://images.weserv.nl/?url={User?.FaceUrl}")"></Avatar>
+            <Title Level="2">@User?.Name </Title>
+        </div>
+    </div>
+
+
+    <div class="video-list">
+        @foreach (var video in Videos)
+        {
+            @* <iframe src="//player.bilibili.com/player.html?aid=493160263&bvid=BV1nN411g7HC&cid=1326985995&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe> *@
+            var vr = MostRecenentRecords[video.BvId];
+            // var vr = DatabaseHandler.Instance.GetAllData<VideoRecord>().Last(r => r.BvId == video.BvId);
+            // display: grid; grid-template-columns: 1fr 5fr;
+            <a href="video/statistic/@video.BvId">
+                <Card Hoverable Bordered Style="border-radius: 5px;" Title="@video.Title">
+                    @* <Extra> *@
+                    @*     <a href="video/statistic/@video.BvId">查看统计数据</a> *@
+                    @* </Extra> *@
+                    <Body>
+                    <GridRow Justify="start">
+                        <GridCol Flex=@("11rem")>
+                            <Image Width="10rem" Style="border-radius: 5px" Src="@($"https://images.weserv.nl/?url={video.CoverUrl}")"/>
+                        </GridCol>
+                        <GridCol Flex=@("auto")>
+                            @* <Title Level="4"> *@
+                            @*     @video.Title *@
+                            @* </Title> *@
+                            @* <Paragraph> *@
+                            @*     @(video.Description == "" ? "-" : video.Description) *@
+                            @* </Paragraph> *@
+                            <Paragraph>
+                                上传于 @(video.UploadTimeStamp.ToDateTime().ToString("yyyy-MM-dd HH:mm:ss"))
+                            </Paragraph>
+                            <GridRow>
+                                <GridCol Span="4">
+                                    <span class="oi oi-media-play"></span> @vr.Views
+                                </GridCol>
+                                <GridCol Span="4">
+                                    <span class="oi oi-thumb-up"></span> @vr.Likes
+                                </GridCol >
+                                <GridCol Span="4">
+                                    <span class="oi oi-power-standby"></span> @vr.Coins
+                                </GridCol>
+                                <GridCol Span="4">
+                                    <span class="oi oi-star"></span> @vr.Favorites
+                                </GridCol>
+                                <GridCol Span="4">
+                                    <span class="oi oi-chat"></span> @vr.Comments
+                                </GridCol>
+                                <!--BV1rN411D7rp-->
+                                <GridCol Span="4">
+                                    <span class="oi oi-list-rich"></span> @vr.BulletComments
+                                </GridCol>
+
+                            </GridRow>
+                        </GridCol>
+                    </GridRow>
+                    </Body>
+                </Card>
+            </a>
+
+            @* <a class="video-item" href="video/statistic/@video.BvId"> *@
+            @*     <div class="image-container"> *@
+            @*         <img class="video-image" src="https://images.weserv.nl/?url=@video.CoverUrl" alt=@video.Title/> *@
+            @*     </div> *@
+            @* *@
+            @*     <div class="content-container"> *@
+            @*         <h5>@video.Title</h5> *@
+            @*         <div class="statistic-container"> *@
+            @*             <div><span class="oi oi-media-play"></span> @vr.Views</div> *@
+            @*             <div><span class="oi oi-thumb-up"></span> @vr.Likes</div> *@
+            @*             <div><span class="oi oi-power-standby"></span> @vr.Coins</div> *@
+            @*             <div><span class="oi oi-star"></span> @vr.Favorites</div> *@
+            @*             <div><span class="oi oi-chat"></span> @vr.Comments</div> *@
+            @*             <div><span class="oi oi-list-rich"></span> @vr.BulletComments</div> *@
+            @*         </div> *@
+            @*         $1$                     <div>@video.Description</div> #1# *@
+            @*     </div> *@
+            @* *@
+            @* </a> *@
+
+            @* <div class="dropdown-divider"></div> *@
+            <Divider/>
+        }
+    </div>
+
+</div>

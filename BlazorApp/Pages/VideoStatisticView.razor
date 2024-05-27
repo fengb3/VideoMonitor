@@ -1,0 +1,64 @@
+@page "/video/statistic/{bvid}"
+@using Model
+@using MyLib.Helper
+@using MyLib.DataManagement
+@using MyLib.Tool
+
+
+<AntDesign.Charts.Line @ref="@_chart" Data="data" Config="config"/>
+
+@code{
+
+    [Parameter]
+    public string Bvid { get; set; }
+
+    IEnumerable<object> data;
+
+    public Line? _chart;
+
+    LineConfig config = new()
+                        {
+                            Padding = "auto",
+                            XField = "Time",
+                            YField = "Views",
+                            Smooth = true,
+                        };
+
+    protected override void OnInitialized()
+    {
+        Log.Info("OnInitialized");
+
+        data = DatabaseHandler.Instance.GetAllData<VideoRecord>()
+                              .Where(vr => vr.BvId == Bvid)
+                              .Select(vr => new { Time = vr.TimeStamp.ToDateTime().ToString("yy-mm-dd"), Views = vr.Views })
+                              .ToArray();
+
+        Log.Info("data.Length: " + data.Count());
+    }
+
+    protected override void OnParametersSet()
+    {
+        Log.Info("OnParametersSet");
+
+        base.OnParametersSet();
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        Log.Info("OnAfterRender");
+
+        if (_chart == null)
+        {
+            Log.Info("AntDesign.Charts.Line component is not being rendered.");
+        }
+        else
+        {
+            Log.Info("AntDesign.Charts.Line component is being rendered.");
+
+            _chart.UpdateChart(csData: data);
+        }
+
+        base.OnAfterRender(firstRender);
+    }
+
+}

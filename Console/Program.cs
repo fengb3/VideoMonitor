@@ -1,22 +1,28 @@
-﻿using Lib.Tool;
-using Model;
-using Model.DataManage;
+﻿#define CONSOLE_APP
 
-namespace Console;
+using MyBiliBiliMonitor_2;
+using MyLib;
+using MyLib.DataManagement;
+using MyLib.Tool;
 
-public static class Program
+
+class Program
 {
-    public static void Main(string[] args)
+    public static async Task Main()
     {
-        // 注册日志
-        Log.Register();
+        // var builder = WebApplication.CreateBuilder();
 
-        AppDomain.CurrentDomain.FirstChanceException += (sender, eventArgs) =>
-        {
-            Log.Error(eventArgs.Exception.ToString());
-        };
+#if DEBUG
+        // Log.Register(Log.LogLevel.FULL);
+        Log.Register(ConsoleAppLog.ConsolePrint, Log.LogLevel.FULL);
+        // Log.Register(ConsoleAppLog.WriteLogFile, Log.LogLevel.FULL);
+        RunTimeVarHelper.PathHome = @".." + Path.DirectorySeparatorChar + ".." + Path.DirectorySeparatorChar + ".." +
+                                    Path.DirectorySeparatorChar + ".." + Path.DirectorySeparatorChar;
+#elif RELEASE
+        Log.Register(ConsoleAppLog.ConsolePrint, Log.LogLevel.WARNING_ONLY);
+        Log.Register(ConsoleAppLog.WriteLogFile, Log.LogLevel.WARNING_ONLY);
+#endif
 
-        // 读取json文件
-        JsonReader.Read();
+        var x = DatabaseHandler.Instance;
     }
 }
