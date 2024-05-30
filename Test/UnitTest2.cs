@@ -1,9 +1,9 @@
 using System.Net;
 using System.Text.Json.Nodes;
 using MyBiliBiliMonitor_2;
-using MyLib;
-using MyLib.API;
-using MyLib.Tool;
+using Lib;
+using Lib.API;
+using Lib.Tool;
 
 namespace Test;
 

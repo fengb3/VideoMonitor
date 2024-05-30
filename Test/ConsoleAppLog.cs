@@ -1,8 +1,8 @@
 using System.Diagnostics;
 using System.Text;
-using MyLib;
-using MyLib.Helper;
-using MyLib.Tool;
+using Lib;
+using Lib.Helper;
+using Lib.Tool;
 
 namespace MyBiliBiliMonitor_2;
 
