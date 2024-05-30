@@ -2,6 +2,8 @@
 log.log
 config.json
 
+# **/appsettings.json
+
 /.idea
 /data
 
@@ -403,3 +405,4 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+Test/appsettings.json
