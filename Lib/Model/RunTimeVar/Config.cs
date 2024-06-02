@@ -1,10 +1,11 @@
-using SQLite;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Model.RunTimeVar;
 
 public class Config
 {
-    [PrimaryKey] 
+    [Key, DatabaseGenerated(DatabaseGeneratedOption.None)] 
     public string Key { get; set; } = "";
     
     public string Value { get; set; } = "";

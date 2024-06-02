@@ -92,7 +92,7 @@ public class UserVideoConsumer : IDataConsumer<JsonNode>
                 //                 CoverUrl        = pic,
                 //             };
 
-                if (DatabaseHandler.Instance.TryGetData(v => v.BvId == bvid, out Video video))
+                if (DatabaseHandler.Instance.TryGetData(v => v.BvId == bvid, out Video? video))
                 {
                     video.AuthorUid       = mid;
                     video.TypeId          = typeid;

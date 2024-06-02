@@ -1,10 +1,10 @@
 using Lib.DataManagement;
 using Microsoft.EntityFrameworkCore;
 
-namespace Test;
+namespace Test.DataBase_Releation;
 
 [TestFixture]
-public class DatabaseTest_Video
+public class TestUserVideoReleation
 {
     private MonitorDbContext _context;
 
@@ -15,7 +15,7 @@ public class DatabaseTest_Video
     }
 
     [Test]
-    public void TestUserVideoRelationship()
+    public void TestUserVideoOne2ManyRelationship()
     {
         // Arrange
         var user = new User
@@ -50,5 +50,25 @@ public class DatabaseTest_Video
         Assert.That(userFromDb.Videos.Count, Is.EqualTo(2));
         Assert.IsTrue(userFromDb.Videos.Any(v => v.BvId == video1.BvId));
         Assert.IsTrue(userFromDb.Videos.Any(v => v.BvId == video2.BvId));
+    }
+    
+    [Test]
+    public void TestUserVideoOne2OneRelationship()
+    {
+        // Arrange
+        var user  = new User { Uid   = 1, Name    = "Test User" };
+        var video = new Video { BvId = "1", Title = "Test Video", AuthorUid = user.Uid };
+        
+        user.Videos = new List<Video> { video };
+        
+        // Act
+        _context.Add(user);
+        _context.SaveChanges();
+
+        // Assert
+        var userFromDb = _context.Users
+                                 .Include(u => u.Videos)
+                                 .Single(u => u.Uid == user.Uid);
+        Assert.AreEqual(user.Uid, userFromDb.Videos.First().AuthorUid);
     }
 }

@@ -27,7 +27,7 @@ public static class RunTimeVarHelper
         
         #region Initialize config with default value
 
-        if (!DatabaseHandler.Instance.TryGetData(c => c.Key == "cookie_url", out Config config))
+        if (!DatabaseHandler.Instance.TryGetData(c => c.Key == "cookie_url", out Config? config))
         {
             config = new Config()
                      {
@@ -39,7 +39,7 @@ public static class RunTimeVarHelper
             DatabaseHandler.Instance.AddData(config);
         }
         
-        if (!DatabaseHandler.Instance.TryGetData(c => c.Key == "cookie_SESSDATA", out Config config1))
+        if (!DatabaseHandler.Instance.TryGetData(c => c.Key == "cookie_SESSDATA", out Config? config1))
         {
             config1 = new Config()
                      {
@@ -51,7 +51,7 @@ public static class RunTimeVarHelper
             DatabaseHandler.Instance.AddData(config1);
         }
 
-        if (!DatabaseHandler.Instance.TryGetData(c => c.Key == "cookie_buvid3", out Config cookie2))
+        if (!DatabaseHandler.Instance.TryGetData(c => c.Key == "cookie_buvid3", out Config? cookie2))
         {
             cookie2 = new Config()
                       {
@@ -63,7 +63,7 @@ public static class RunTimeVarHelper
             DatabaseHandler.Instance.AddData(cookie2);
         }
 
-        if (!DatabaseHandler.Instance.TryGetData(c => c.Key == "cookie_buvid4", out Config cookie3))
+        if (!DatabaseHandler.Instance.TryGetData(c => c.Key == "cookie_buvid4", out Config? cookie3))
         {
             cookie3 = new Config()
                       {
@@ -88,7 +88,7 @@ public static class RunTimeVarHelper
         if (key == null)
             Log.Error($"获取运行变量失败 - key 为 null");
 
-        if (!DatabaseHandler.Instance.TryGetData(c => c.Key == key, out Config config))
+        if (!DatabaseHandler.Instance.TryGetData(c => c.Key == key, out Config? config))
         {
             Log.Error($"获取运行变量失败 - key: {key} 未找到");
         }

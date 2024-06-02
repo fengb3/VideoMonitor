@@ -1,10 +1,9 @@
 using Lib.DataManagement;
-using Microsoft.EntityFrameworkCore;
 
-namespace Test;
+namespace Test.DataBase_Releation;
 
 [TestFixture]
-public class DataBaseTest_User
+public class TestUser
 {
     private MonitorDbContext _context;
 

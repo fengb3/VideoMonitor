@@ -31,17 +31,17 @@ public class APIHelper
                 // _httpClientHandler.CookieContainer.Add(new Uri("https://api.bilibili.com"),
                 //                                        new Cookie("SESSDATA",
                 //                                                   "d569d525%2C1715446637%2C874c4%2Ab1CjC88ULRe5CC7ZozcKncPLkgk6k6uIPdIcmis5NOlGYEkMMFg-GO4AjMmgQOuK25Wj0SVjU3NDVsak5BZmhITFNlV2dNYlNmZzRyRnNhT0x2Tk9NS2syS284Q3lOS3FRdGN6bFdTcS1wX1prM3d1M3YwT0c0cjIyWnVUSkVVNXZVTmhnSWVUMm9nIIEC"));
-                _httpClientHandler.CookieContainer.Add(new Uri("https://api.bilibili.com"),
-                                                       new Cookie("SESSDATA",
-                                                                  "04f1865e%2C1715496409%2Cf05aa%2Ab2CjDgb0p_Ice-UKQLjrdSWOcviZ9yIvTK0pFNx85Y39AVyD7Gtq67y6xnxb1jlXYkOjoSVnpocWx1UGs4RzEtdHNDVUM5elZOY3hmOHlObmx0RzYxZ2tUWjFJdjBpeUpiQUMzMXkwWUE3enNGVjdHRU1BRkNudUFlazVZcTNhTTZFcmRnRENJWXJRIIEC"));
-                _httpClientHandler.CookieContainer.Add(new Uri("https://api.bilibili.com"),
-                                                       new Cookie(
-                                                           "buvid3",
-                                                           "1A55B5FE-C4AF-28C0-8C4E-B7423B8D650B95694infoc"));
-                _httpClientHandler.CookieContainer.Add(new Uri("https://api.bilibili.com"),
-                                                       new Cookie(
-                                                           "buvid4",
-                                                           "125953A5-B66A-FB59-8F31-07DCBECDC61897239-023111400-g%2FJDFC92Uz%2FjiQi2iakt2g%3D%3D"));
+                // _httpClientHandler.CookieContainer.Add(new Uri("https://api.bilibili.com"),
+                //                                        new Cookie("SESSDATA",
+                //                                                   "04f1865e%2C1715496409%2Cf05aa%2Ab2CjDgb0p_Ice-UKQLjrdSWOcviZ9yIvTK0pFNx85Y39AVyD7Gtq67y6xnxb1jlXYkOjoSVnpocWx1UGs4RzEtdHNDVUM5elZOY3hmOHlObmx0RzYxZ2tUWjFJdjBpeUpiQUMzMXkwWUE3enNGVjdHRU1BRkNudUFlazVZcTNhTTZFcmRnRENJWXJRIIEC"));
+                // _httpClientHandler.CookieContainer.Add(new Uri("https://api.bilibili.com"),
+                //                                        new Cookie(
+                //                                            "buvid3",
+                //                                            "1A55B5FE-C4AF-28C0-8C4E-B7423B8D650B95694infoc"));
+                // _httpClientHandler.CookieContainer.Add(new Uri("https://api.bilibili.com"),
+                //                                        new Cookie(
+                //                                            "buvid4",
+                //                                            "125953A5-B66A-FB59-8F31-07DCBECDC61897239-023111400-g%2FJDFC92Uz%2FjiQi2iakt2g%3D%3D"));
 
                 _httpClient = new HttpClient(_httpClientHandler);
                 _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(
@@ -64,12 +64,10 @@ public class APIHelper
     };
 
     //对 imgKey 和 subKey 进行字符顺序打乱编码
-    private static string GetMixinKey(string orig)
-    {
-        return MixinKeyEncTab.Aggregate("", (s, i) => s + orig[i])[..32];
-    }
+    private static string GetMixinKey(string orig) => MixinKeyEncTab.Aggregate("", (s, i) => s + orig[i])[..32];
 
-    private static Dictionary<string, string> EncWbi(Dictionary<string, string> parameters, string imgKey,
+    public static Dictionary<string, string> EncWbi(Dictionary<string, string> parameters,
+                                                     string                     imgKey,
                                                      string                     subKey)
     {
         string mixinKey = GetMixinKey(imgKey + subKey);
@@ -152,7 +150,8 @@ public class APIHelper
 
     // public static Queue<HttpRequestMessage> RequestMessages = new();
 
-    public static async Task<JsonNode?> SendRequest(string                     url, HttpMethod method,
+    public static async Task<JsonNode?> SendRequest(string                     url,
+                                                    HttpMethod                 method,
                                                     Dictionary<string, string> parameters)
     {
         // var httpClient = Client;
@@ -206,7 +205,7 @@ public class APIHelper
         if (code != 0)
         {
             Log.Error($"Request Error - {code} - {message} - {url}");
-            return null;
+            // return null;
         }
 
         // Console.WriteLine(url);

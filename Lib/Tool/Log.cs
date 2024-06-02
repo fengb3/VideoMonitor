@@ -137,7 +137,6 @@ public static class Log
     //     Encoding.RegisterProvider((CodePagesEncodingProvider.Instance));
     // }
     
-    
 }
 
 /// <summary>

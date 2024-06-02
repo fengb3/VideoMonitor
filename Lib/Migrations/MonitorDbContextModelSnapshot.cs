@@ -22,6 +22,43 @@ namespace Lib.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Model.RunTimeVar.Config", b =>
+                {
+                    b.Property<string>("Key")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<long>("LastTimeUpdate")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Key");
+
+                    b.ToTable("Configs");
+
+                    b.HasData(
+                        new
+                        {
+                            Key = "SESSDATA",
+                            LastTimeUpdate = 0L,
+                            Value = ""
+                        },
+                        new
+                        {
+                            Key = "buvid3",
+                            LastTimeUpdate = 0L,
+                            Value = "AFE917A3-F157-AB06-AD81-F5E97E8B5D9A60062infoc"
+                        },
+                        new
+                        {
+                            Key = "buvid4",
+                            LastTimeUpdate = 0L,
+                            Value = "DAC8A899-9006-0900-5D29-5D64C5BB0F8824741-023013104-NLgo%2F2RgzmTINRwjdsii8w%3D%3D"
+                        });
+                });
+
             modelBuilder.Entity("Model.User", b =>
                 {
                     b.Property<long>("Uid")

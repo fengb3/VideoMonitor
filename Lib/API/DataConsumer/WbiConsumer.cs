@@ -24,7 +24,7 @@ public class WbiConsumer:IDataConsumer<JsonNode>
         
         var now = DateTime.Now.ToTimeStamp();
 
-        if (DatabaseHandler.Instance.TryGetData(c => c.Key == "wbi_img_url", out Config config))
+        if (DatabaseHandler.Instance.TryGetData(c => c.Key == "wbi_img_url", out Config? config))
         {
             config.Value = imgUrl;
             config.LastTimeUpdate = now;
@@ -42,7 +42,7 @@ public class WbiConsumer:IDataConsumer<JsonNode>
             DatabaseHandler.Instance.AddData(config);
         }
         
-        if (DatabaseHandler.Instance.TryGetData(c => c.Key == "wbi_sub_url", out Config config2))
+        if (DatabaseHandler.Instance.TryGetData(c => c.Key == "wbi_sub_url", out Config? config2))
         {
             config2.Value = subUrl;
             

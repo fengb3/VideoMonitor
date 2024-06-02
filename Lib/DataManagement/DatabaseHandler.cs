@@ -1,12 +1,14 @@
-using Lib.Tool;
-using SQLite;
-using Model;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+// using SQLite;
 
 namespace Lib.DataManagement;
 
 public class DatabaseHandler
 {
-    private readonly SQLiteConnection _dbConnection;
+    // private readonly SQLiteConnection _dbConnection;
+    
+    private readonly MonitorDbContext _context;
 
     private static DatabaseHandler? _instance;
 
@@ -29,79 +31,92 @@ public class DatabaseHandler
 
     private DatabaseHandler()
     {
-        var databaseDir = Path.Combine(RunTimeVarHelper.PathHome, "data");
-        
-        if (!Directory.Exists(databaseDir))
-        {
-            Directory.CreateDirectory(databaseDir);
-        }
-        
-        var databasePath = Path.Combine(databaseDir, "Data Source=database.db;Version=3;");
-        
-        // if (!File.Exists(databasePath))
-        // {
-        //     Log.Warning($"找不到数据库, 创建一个新的在 {databasePath}");
-        //     File.Create(databasePath).Close();
-        // }
-        
-        _dbConnection = new SQLiteConnection(databasePath);
-        CreateTables();
+        var configuration = new ConfigurationBuilder()
+                           .SetBasePath(Directory.GetCurrentDirectory())
+                           .AddJsonFile("appsettings.json")
+                           .Build();
+
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+        _context = new MonitorDbContext(new DbContextOptionsBuilder<MonitorDbContext>()
+                                          .UseSqlServer(connectionString)
+                                          .Options);
+
+        // context.Database.EnsureDeleted();
+        _context.Database.EnsureCreated();
     }
 
     public void AddData<T>(T data)
     {
-        var changed = _dbConnection.Insert(data);
-        
-        if (changed == 0)
-            Log.Warning($"No data changed when insert - {data}");
+        // var changed = _dbConnection.Insert(data);
+        //
+        // if (changed == 0)
+        //     Log.Warning($"No data changed when insert - {data}");
+
+        if (data == null)
+            throw new ArgumentNullException(nameof(data));    
+            
+        _context.Add(data);
+
+        _context.SaveChanges();
     }
 
     public void UpdateData<T>(T data)
     {
+        if (data == null)
+            throw new ArgumentNullException(nameof(data));
         
-        var changed = _dbConnection.Update(data);
-
-        if (changed == 0)
-            Log.Warning($"No data changed when update - {data}");
+        _context.Update(data);
+        _context.SaveChanges();
     }
 
     public void DeleteData<T>(T data)
     {
-        var changed =  _dbConnection.Delete(data);
+        if (data == null)
+            throw new ArgumentNullException(nameof(data));
         
-        if (changed == 0)
-            Log.Warning($"No data changed when delete - {data}");
+        _context.Remove(data);
+        _context.SaveChanges();
     }
     
-    public bool TryGetData<T>(Func<T, bool> func, out T data) where T : new()
+    public bool TryGetData<T>(Func<T, bool> func, out T? data) where T : class
     {
-        data = _dbConnection.Table<T>().FirstOrDefault(func);
+        // data = _dbConnection.Table<T>().FirstOrDefault(func);
+        // return data != null;
+
+        data = _context.Set<T>().FirstOrDefault(func);
+
+        // Console.WriteLine(data);
+        
         return data != null;
     }
     
-    public T? GetData<T>(Func<T, bool> func) where T : new()
+    public T? GetData<T>(Func<T, bool> func) where T : class
     {
-        return _dbConnection.Table<T>().FirstOrDefault(func);
+        // return _dbConnection.Table<T>().FirstOrDefault(func);
+        return _context.Set<T>().FirstOrDefault(func);
     }
     
-    public T GetData<T>(object key) where T : new()
+    public T? GetData<T>(object key) where T : class
     {
-        return _dbConnection.Get<T>(key);
+        // return _dbConnection.Get<T>(key);
+        return _context.Find<T>(key);
     }
 
-    public TableQuery<T> GetAllData<T>() where T : new()
-    {
-        return _dbConnection.Table<T>();
-    }
+    // public TableQuery<T> GetAllData<T>() where T : new()
+    // {
+    //     // return _dbConnection.Table<T>();
+    //     return _context.Set<T>();
+    // }
 
-    private void CreateTables()
-    {
-        _dbConnection.CreateTable<Model.RunTimeVar.Config>();
-        _dbConnection.CreateTable<Video>();
-        _dbConnection.CreateTable<User>();
-        _dbConnection.CreateTable<UserRecord>();
-        _dbConnection.CreateTable<VideoRecord>();
-        _dbConnection.CreateTable<VideoType>();
-    }
+    // private void CreateTables()
+    // {
+    //     _dbConnection.CreateTable<Model.RunTimeVar.Config>();
+    //     _dbConnection.CreateTable<Video>();
+    //     _dbConnection.CreateTable<User>();
+    //     _dbConnection.CreateTable<UserRecord>();
+    //     _dbConnection.CreateTable<VideoRecord>();
+    //     _dbConnection.CreateTable<VideoType>();
+    // }
     
 }

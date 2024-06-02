@@ -2,28 +2,37 @@ using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Model;
+using Model.RunTimeVar;
 
 namespace Lib.DataManagement;
 
 public class MonitorDbContext : DbContext
 {
+    public DbSet<Config> Configs { get; set; } = null!;
+
     public DbSet<Video>       Videos       { get; set; } = null!;
     public DbSet<VideoRecord> VideoRecords { get; set; } = null!;
     public DbSet<User>        Users        { get; set; } = null!;
     public DbSet<UserRecord>  UserRecords  { get; set; } = null!;
     public DbSet<VideoType>   VideoTypes   { get; set; } = null!;
 
-    public MonitorDbContext(DbContextOptions<MonitorDbContext> options) : base(options)
+    public MonitorDbContext(DbContextOptions<MonitorDbContext> options)
+        : base(new DbContextOptionsBuilder(options)
+              .UseSqlServer(new ConfigurationBuilder()
+                           .AddJsonFile("appsettings.json")
+                           .Build()
+                           .GetConnectionString("DefaultConnection"))
+              .Options)
     {
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        var config = new ConfigurationBuilder()
-                    .AddJsonFile("appsettings.json")
-                    .Build();
-        
-        optionsBuilder.UseSqlServer(config.GetConnectionString("DefaultConnection"));
+        optionsBuilder
+           .UseSqlServer(new ConfigurationBuilder()
+                                   .AddJsonFile("appsettings.json")
+                                   .Build()
+                        .GetConnectionString("DefaultConnection"));
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -78,9 +87,23 @@ public class MonitorDbContext : DbContext
                     .WithMany()
                     .HasForeignKey(v => v.TypeId)
                     .OnDelete(DeleteBehavior.Restrict);
+
+        var config = new ConfigurationBuilder()
+                    .AddJsonFile("appsettings.json")
+                    .Build();
+
+        var      section      = config.GetSection("MyConfigs");
+        string[] seedDataKeys = ["SESSDATA", "buvid3", "buvid4"];
+        var seedDatas = seedDataKeys.Select(key => new Config
+                                                   {
+                                                       Key            = key,
+                                                       Value          = section[key] ?? "",
+                                                       LastTimeUpdate = 0L,
+                                                   });
+        // Seed data
+        modelBuilder.Entity<Config>().HasData(seedDatas);
     }
 }
-
 
 /// <summary>
 /// 模型构建器扩展方法
@@ -126,14 +149,14 @@ public static class ModelBuilderExtsions
     public static ModelBuilder ConfigUserEntity(this ModelBuilder modelBuilder)
     {
         modelBuilder.HasOneToMany<User, UserRecord>(
-            u => u.UserRecords, 
-            ur => ur.User, 
+            u => u.UserRecords,
+            ur => ur.User,
             ur => ur.Uid);
         modelBuilder.HasOneToOne<User, UserRecord>(u => u.MostRecentUserRecord, ur => ur.User, ur => ur.Uid);
         modelBuilder.HasOneToMany<User, Video>(u => u.Videos, v => v.Author, v => v.AuthorUid);
         return modelBuilder;
     }
-    
+
     public static ModelBuilder ConfigVideoEntity(this ModelBuilder modelBuilder)
     {
         modelBuilder.HasOneToMany<Video, VideoRecord>(v => v.VideoRecords, vr => vr.Video, vr => vr.BvId);
@@ -141,24 +164,24 @@ public static class ModelBuilderExtsions
         // modelBuilder.HasOneToOne<Video, VideoType>(v => v.Type, vt => vt.Videos, vt => vt.Id);
         return modelBuilder;
     }
-    
+
     public static ModelBuilder ConfigVideoRecordEntity(this ModelBuilder modelBuilder)
     {
-        modelBuilder.HasOneToOne<VideoRecord, Video>(vr => vr.Video, v => v.MostRecentVideoRecord, v => v.MostRecentVideoRecordId);
+        modelBuilder.HasOneToOne<VideoRecord, Video>(vr => vr.Video, v => v.MostRecentVideoRecord,
+                                                     v => v.MostRecentVideoRecordId);
         return modelBuilder;
     }
-    
+
     public static ModelBuilder ConfigUserRecordEntity(this ModelBuilder modelBuilder)
     {
-        modelBuilder.HasOneToOne<UserRecord, User>(ur => ur.User, u => u.MostRecentUserRecord, u => u.MostRecentUserRecordId);
+        modelBuilder.HasOneToOne<UserRecord, User>(ur => ur.User, u => u.MostRecentUserRecord,
+                                                   u => u.MostRecentUserRecordId);
         return modelBuilder;
     }
-    
+
     // public static ModelBuilder ConfigVideoTypeEntity(this ModelBuilder modelBuilder)
     // {
     //     modelBuilder.HasOneToMany<VideoType, Video>(vt => vt.Videos, v => v.Type, v => v.TypeId);
     //     return modelBuilder;
     // }
-    
-    
 }

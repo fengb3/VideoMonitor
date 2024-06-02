@@ -29,7 +29,7 @@ public class UnitTest2
         var url = $"https://api.bilibili.com/x/web-interface/card";
         var parameters = new Dictionary<string, string>
                          {
-                             { "mid", 3537123554626307.ToString() }, // testing user id who does not have any video uploaded
+                             { "mid", 1140672573.ToString() }, // testing user id who does not have any video uploaded
                          };
         
         var wbiSign = await APIHelper.GetWbiSign(parameters);

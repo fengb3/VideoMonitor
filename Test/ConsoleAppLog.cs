@@ -4,7 +4,7 @@ using Lib;
 using Lib.Helper;
 using Lib.Tool;
 
-namespace MyBiliBiliMonitor_2;
+namespace Test;
 
 public static class ConsoleAppLog
 {

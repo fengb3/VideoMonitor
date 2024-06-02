@@ -13,18 +13,19 @@ public static class HttpClientProvider
 
     static HttpClientProvider()
     {
-        _cookieContainer.Add(new Uri("https://api.bilibili.com"),
-                             new Cookie("SESSDATA", DatabaseHandler.Instance.GetData<Config>("cookie_SESSDATA").Value));
-
-        _cookieContainer.Add(new Uri("https://api.bilibili.com"),
-                             new Cookie(
-                                 "buvid3",
-                                 DatabaseHandler.Instance.GetData<Config>("cookie_buvid3").Value));
-
-        _cookieContainer.Add(new Uri("https://api.bilibili.com"),
-                             new Cookie(
-                                 "buvid4",
-                                 DatabaseHandler.Instance.GetData<Config>("cookie_buvid4").Value));
+        // _cookieContainer.Add(new Uri("https://api.bilibili.com"),
+        //                      new Cookie("SESSDATA", 
+        //                                 DatabaseHandler.Instance.GetData<Config>("SESSDATA").Value));
+        //
+        // _cookieContainer.Add(new Uri("https://api.bilibili.com"),
+        //                      new Cookie(
+        //                          "buvid3",
+        //                          DatabaseHandler.Instance.GetData<Config>("buvid3").Value));
+        //
+        // _cookieContainer.Add(new Uri("https://api.bilibili.com"),
+        //                      new Cookie(
+        //                          "buvid4",
+        //                          DatabaseHandler.Instance.GetData<Config>("buvid4").Value));
     }
 
     public static HttpClient GetHttpClient()

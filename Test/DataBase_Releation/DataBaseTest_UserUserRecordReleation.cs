@@ -1,10 +1,10 @@
 using Lib.DataManagement;
 using Microsoft.EntityFrameworkCore;
 
-namespace Test;
+namespace Test.DataBase_Releation;
 
 [TestFixture]
-public class DataBaseTest_UserRecord
+public class TestUserUserRecordReleation
 {
     private MonitorDbContext _dbContext = null!;
 

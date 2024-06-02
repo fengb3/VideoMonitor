@@ -2,16 +2,16 @@ using Lib.DataManagement;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace Test;
+namespace Test.DataBase_Releation;
 
 public static class DataBaseInitailizer
 {
     public static MonitorDbContext GetContext()
     {
-        Console.WriteLine(System.IO.Directory.GetCurrentDirectory());
+        Console.WriteLine(Directory.GetCurrentDirectory());
         
         var configuration = new ConfigurationBuilder()
-                           .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+                           .SetBasePath(Directory.GetCurrentDirectory())
                            .AddJsonFile("appsettings.json")
                            .Build();
 
