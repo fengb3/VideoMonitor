@@ -11,9 +11,12 @@ internal class WbiSignAttribute : OAuthTokenAttribute
 {
     protected override void UseTokenResult(ApiRequestContext context, TokenResult tokenResult)
     {
+        if (tokenResult.Access_token == null)
+            throw new NullReferenceException("Wbi token is null");
+        
         var wbiImg = JsonSerializer.Deserialize<WbiResponse.WbiImg>(tokenResult.Access_token);
         
-        var imgkey = wbiImg?.ImgUrl?.Split("/")[^1].Split(".")[0];
+        var imgKey = wbiImg?.ImgUrl?.Split("/")[^1].Split(".")[0];
         var subKey = wbiImg?.SubUrl?.Split("/")[^1].Split(".")[0];
 
         var query = context.HttpContext.RequestMessage.RequestUri?.ToString().Split("?")[^1];
@@ -23,7 +26,7 @@ internal class WbiSignAttribute : OAuthTokenAttribute
                              .Select(x => x.Split("="))
                              .ToDictionary(x => x[0], x => x[1]);
 
-        var signedParams = WbiSignature.EncWbi(queryDict, imgkey, subKey);
+        var signedParams = WbiSignature.EncWbi(queryDict, imgKey, subKey);
         var signedQuery  = new FormUrlEncodedContent(signedParams).ReadAsStringAsync().Result;
 
         context.HttpContext.RequestMessage.RequestUri =

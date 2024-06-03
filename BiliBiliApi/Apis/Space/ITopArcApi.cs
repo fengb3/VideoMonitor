@@ -4,7 +4,7 @@ using WebApiClientCore.Attributes;
 namespace BiliBiliApi.Apis.Space;
 
 // [HttpHost("https://api.bilibili.com")]
-public interface Space
+public interface ITopArcApi
 {
     [HttpGet("/x/space/top/arc")]
     Task<string> SpaceTopArc([PathQuery] int vmid);
@@ -24,6 +24,11 @@ public interface Space
 // [HttpHost("https://api.bilibili.com")]
 public interface IArcApi
 {
+	/// <summary>
+	/// 查询用户投稿视频明细
+	/// </summary>
+	/// <param name="request"></param>
+	/// <returns></returns>
     [HttpGet("/x/space/wbi/arc/search")]
     [WbiSign]
     Task<Models.Space.Arc.Search.Response> SpaceArcSearch(Models.Space.Arc.Search.Request request);

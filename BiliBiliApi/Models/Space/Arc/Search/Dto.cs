@@ -2,6 +2,9 @@ using System.Text.Json.Serialization;
 
 namespace BiliBiliApi.Models.Space.Arc.Search;
 
+/// <summary>
+/// 
+/// </summary>
 [Serializable]
 public record Request
 {
