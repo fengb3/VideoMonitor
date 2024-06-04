@@ -1,35 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System;
-using System.Collections.Generic;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
-/// <summary>
-///
-/// </summary>
 namespace BiliBiliApi.Models.Web_Interface.View;
 
 /// <summary>
-/// <para>获取视频详细信息(web端) 请求 实体类</para>
-/// <para>认证方式：Cookie(SESSDATA)</para>
-/// <para>认证方式：Cookie(SESSDATA)</para>
+/// <para>获取视频详细信息(web端)</para>
 /// <para>认证方式：Cookie(SESSDATA)</para>
 /// <para>限制游客访问的视频需要登录</para>
-/// </summary>
-/// <api>
-/// https://api.bilibili.com/x/web-interface/view
-/// </api>
-/// <doc>
-/// https://socialsisteryi.github.io/bilibili-API-collect/docs/video/info.html#%E8%8E%B7%E5%8F%96%E8%A7%86%E9%A2%91%E8%AF%A6%E7%BB%86%E4%BF%A1%E6%81%AF-web%E7%AB%AF
-/// </doc>
-public record Request
-{
-	public long? Aid { get; set; }
-
-	public string? Bvid { get; set; }
-}
-
-/// <summary>
-/// 获取视频详细信息(web端) 返回 实体类
 /// </summary>
 /// <api>
 /// https://api.bilibili.com/x/web-interface/view
@@ -41,11 +17,11 @@ public record Request
 public record Response : BaseResponse
 {
 	[JsonPropertyName("data")]
-	public VideoData? Data { get; set; }
+	public Data? Data { get; set; }
 }
 
 [Serializable]
-public class VideoData
+public class Data
 {
 	[JsonPropertyName("bvid")]
 	public string? Bvid { get; set; }
@@ -72,7 +48,7 @@ public class VideoData
 	public string Title { get; set; }
 
 	[JsonPropertyName("pubdate")]
-	public long Pubdate { get; set; }
+	public long PubDate { get; set; }
 
 	[JsonPropertyName("ctime")]
 	public long Ctime { get; set; }
@@ -464,6 +440,3 @@ public class LevelInfo
 	[JsonPropertyName("next_exp")]
 	public int NextExp { get; set; }
 }
-
-
-// Other classes like DescV2, Rights, Owner, Stat, ArgueInfo, Dimension,Page, Staff, UserGarb, HonorReply go here
