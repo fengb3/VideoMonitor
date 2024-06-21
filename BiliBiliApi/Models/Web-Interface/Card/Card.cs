@@ -18,7 +18,7 @@ public abstract class Card
 	public record Response : BaseResponse
 	{
 		[JsonPropertyName("data")]
-		public Data Data { get; init; }
+		public Data Data { get; init; } = new ();
 	}
 
 	[Serializable]
@@ -28,10 +28,10 @@ public abstract class Card
 		/// 卡片信息
 		/// </summary>
 		[JsonPropertyName("card")]
-		public CardInfo Card { get; init; }
+		public CardInfo? Card { get; init; }
 		
 		[JsonPropertyName("space")]
-		public SpaceInfo Space { get; init; }
+		public SpaceInfo? Space { get; init; }
 
 		/// <summary>
 		/// 是否关注此用户

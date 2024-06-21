@@ -8,4 +8,8 @@ namespace BiliBiliApi.Apis;
 /// b站接口
 /// </summary>
 [HttpHost("https://api.bilibili.com")]
-public interface IBilibiliApi : Space.ITopArcApi, Space.IArcApi, Space.IAccApi;
+public interface IBilibiliApi :
+    Space.ITopArcApi,
+    Space.IArcApi,
+    Space.IAccApi,
+    Web_Interface.IWebInterfaceApi;

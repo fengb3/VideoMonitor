@@ -1,6 +1,6 @@
 // using PostSharp.Aspects;
 
-namespace Lib.Attributes;
+//namespace Lib.Attributes;
 
 //
 // [Serializable]

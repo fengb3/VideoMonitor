@@ -10,7 +10,7 @@ public interface IWebInterfaceApi
 	/// <param name="mid">目标用户mid</param>
 	/// <param name="photo">是否请求用户主页头图</param>
 	[HttpGet("/x/web-interface/card")]
-	Task<Models.Web_Interface.Card.Response> WebInterfaceCard([PathQuery] int    mid,
+	Task<Models.Web_Interface.Card.Response> WebInterfaceCard([PathQuery] long    mid,
 	                                                          [PathQuery] string photo = "false");
 
 	/// <summary>

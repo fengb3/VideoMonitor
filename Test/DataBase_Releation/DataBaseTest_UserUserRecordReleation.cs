@@ -80,4 +80,44 @@ public class TestUserUserRecordReleation
         var userRecords = _dbContext.UserRecords.Where(ur => ur.Uid == user.Uid).ToList();
         Assert.That(userRecords, Is.Empty); // Assert that all user records related to the user are removed
     }
+
+    [Test]
+    public void TestAddUserRecordForExistedUser()
+    {
+        // Arrange
+        var user = new User
+        {
+            Uid = 15L,
+            Name = "TestUser",
+            FaceUrl = "https://www.example.com",
+        };
+
+        _dbContext.Users.Add(user);
+        _dbContext.SaveChanges();
+
+        // Act
+        var existedUser = _dbContext.Users.FirstOrDefault(u => u.Uid == user.Uid);
+
+        existedUser?.UserRecords.Add (new UserRecord()
+        {
+            ArchiveNum = 1,
+            FollowerNum = 1,
+            FollowingNum = 23,
+            LikeNum = 44,
+            TimeStamp = DateTimeOffset.Now.ToUnixTimeMilliseconds(),
+            Uid = existedUser.Uid,
+            User = existedUser,
+        });
+
+        _dbContext.SaveChanges();
+
+        existedUser.MostRecentUserRecord = existedUser.UserRecords.Last();
+        _dbContext.SaveChanges();
+
+        // Assert
+        var userRecord = _dbContext.Users.FirstOrDefault(ur => ur.Uid == user.Uid);
+
+        Assert.That(userRecord, Is.Not.Null);
+        Console.WriteLine(userRecord.ToJsonString());
+    }
 }

@@ -69,6 +69,7 @@ public class TestUserVideoReleation
         var userFromDb = _context.Users
                                  .Include(u => u.Videos)
                                  .Single(u => u.Uid == user.Uid);
-        Assert.AreEqual(user.Uid, userFromDb.Videos.First().AuthorUid);
+
+        Assert.That(userFromDb.Videos.First().AuthorUid, Is.EqualTo(user.Uid));
     }
 }

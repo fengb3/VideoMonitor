@@ -4,17 +4,21 @@ using System.Text.Json.Serialization;
 
 namespace Model;
 
+/// <summary>
+/// 用户记录
+/// 包含用户在某个时间点的数据信息
+/// </summary>
 [Table("UserRecords")]
 public class UserRecord
 {
     /// <summary>
-    /// 
+    /// 用户记录id
     /// </summary>
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public long UrId { get; set; }
     
     /// <summary>
-    /// 时间戳
+    /// 时间戳， Unix时间戳， 精确到毫秒， 此时间点的数据
     /// </summary>
     public long TimeStamp { get; set; }
 
