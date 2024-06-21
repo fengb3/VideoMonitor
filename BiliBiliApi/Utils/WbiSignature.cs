@@ -7,9 +7,9 @@ namespace BiliBiliApi.Utils;
 /// <summary>
 /// Wbi 签名 处理
 /// </summary>
-/// <参考>
+/// <reference>
 /// https://github.com/SocialSisterYi/bilibili-API-collect/blob/master/docs/misc/sign/wbi.md
-/// </参考>
+/// </reference>
 public static class WbiSignature
 {
 	private static readonly int[] MixinKeyEncTab =
