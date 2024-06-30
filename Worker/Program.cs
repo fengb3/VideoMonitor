@@ -45,15 +45,17 @@ class HelloJob(ILogger<HelloJob> logger) : IJob
 {
 	public static int ExecuteCount { get; set; }
 
-	public async Task Execute(IJobExecutionContext context)
+	public Task Execute(IJobExecutionContext context)
 	{
 		var jobsSays = context.JobDetail.JobDataMap.GetString("jobSays");
-		var name     = context.JobDetail.JobDataMap.GetString("name");
+		var name = context.JobDetail.JobDataMap.GetString("name");
 
 		using var scope = logger.BeginScope("gg");
 		{
 			logger.LogInformation(new EventId(233, "gg"),
 				$"Job says \"{jobsSays}\" to {name} at {DateTimeOffset.Now} -- {++ExecuteCount}");
 		}
+
+		return Task.CompletedTask;
 	}
 }

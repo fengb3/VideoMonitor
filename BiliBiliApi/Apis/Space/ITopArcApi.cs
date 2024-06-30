@@ -48,7 +48,12 @@ public interface IArcApi
 // [HttpHost("https://api.bilibili.com")]
 public interface IAccApi
 {
-	[HttpGet("/x/space/wbi/acc/info")]
+    /// <summary>
+    /// 用户空间详细信息
+    /// </summary>
+    /// <param name="mid">目标用户mid</param>
+    /// <returns></returns>
+    [HttpGet("/x/space/wbi/acc/info")]
 	[WbiSign]
 	Task<object> SpaceAccInfo([PathQuery] int mid);
 }
