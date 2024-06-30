@@ -29,8 +29,11 @@ public abstract class Card
 		/// </summary>
 		[JsonPropertyName("card")]
 		public CardInfo? Card { get; init; }
-		
-		[JsonPropertyName("space")]
+
+        /// <summary>
+        /// 空间信息
+        /// </summary>
+        [JsonPropertyName("space")]
 		public SpaceInfo? Space { get; init; }
 
 		/// <summary>
@@ -38,7 +41,7 @@ public abstract class Card
 		/// - true：已关
 		/// - false：未关注
 		/// </summary>
-		/// <remarks>需要登录(Cookie)未登录为false</remarks>
+		/// <remarks>需要登录(Cookie)未登录为 false</remarks>
 		[JsonPropertyName("following")]
 		public bool Following { get; init; }
 
