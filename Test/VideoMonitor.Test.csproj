@@ -29,6 +29,7 @@
         <ProjectReference Include="..\BiliBiliApi\BiliBiliApi.csproj"/>
         <ProjectReference Include="..\Lib\Lib.csproj"/>
         <ProjectReference Include="..\VideoMonitor.AppHost\VideoMonitor.AppHost.csproj"/>
+        <ProjectReference Include="..\WorkerApi\Worker.csproj" />
 
     </ItemGroup>
 

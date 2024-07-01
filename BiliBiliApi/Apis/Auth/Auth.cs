@@ -1,4 +1,4 @@
-using BiliBiliApi.Models;
+using BiliBiliApi.Dto;
 using WebApiClientCore.Attributes;
 
 namespace BiliBiliApi.Apis.Auth;

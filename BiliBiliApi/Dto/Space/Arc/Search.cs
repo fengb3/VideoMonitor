@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace BiliBiliApi.Models.Space.Arc;
+namespace BiliBiliApi.Space.Arc;
 
 public abstract class Search
 {

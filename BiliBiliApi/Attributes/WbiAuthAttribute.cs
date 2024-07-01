@@ -1,5 +1,5 @@
 using System.Text.Json;
-using BiliBiliApi.Models;
+using BiliBiliApi.Dto;
 using BiliBiliApi.Utils;
 using WebApiClientCore;
 using WebApiClientCore.Attributes;

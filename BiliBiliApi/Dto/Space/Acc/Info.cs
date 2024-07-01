@@ -1,12 +1,11 @@
-﻿using BiliBiliApi.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace BiliBiliApi.Dto.Space.Acc;
+namespace BiliBiliApi.Space.Acc;
 
 /// <summary>
 /// 用户空间详细信息
@@ -16,7 +15,7 @@ namespace BiliBiliApi.Dto.Space.Acc;
 /// </summary>
 /// <api>https://api.bilibili.com/x/space/wbi/acc/info</api>
 /// <doc>https://socialsisteryi.github.io/bilibili-API-collect/docs/user/info.html#%E7%94%A8%E6%88%B7%E7%A9%BA%E9%97%B4%E8%AF%A6%E7%BB%86%E4%BF%A1%E6%81%AF</doc>
-public abstract partial class Info
+public abstract class Info
 {
     public record Response : BaseResponse
     {

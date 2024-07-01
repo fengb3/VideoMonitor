@@ -7,8 +7,8 @@ namespace Worker.Jobs;
 
 public class FetchUploaderInfoJob(
     ILogger<FetchUploaderInfoJob> logger,
-    MonitorDbContext dbContext,
-    IBilibiliApi bilibiliApi) : IJob
+    MonitorDbContext              dbContext,
+    IBilibiliApi                  bilibiliApi) : IJob
 {
     /// <summary>
     /// 从B站 获取上传者信息
@@ -30,20 +30,20 @@ public class FetchUploaderInfoJob(
         var user = await dbContext.Users.FindAsync(uploaderId);
 
         user ??= new Model.User()
-            {
-                Uid = uploaderId,
-                Name = uploaderInfo.Data.Card!.Name,
-                FaceUrl = uploaderInfo.Data.Card.Face.ToString(),
-            };
+        {
+            Uid     = uploaderId,
+            Name    = uploaderInfo.Data.Card!.Name,
+            FaceUrl = uploaderInfo.Data.Card.Face.ToString(),
+        };
 
         var userRecord = new Model.UserRecord()
         {
-            User = user,
-            Uid = uploaderId,
-            TimeStamp = DateTimeOffset.Now.ToUnixTimeMilliseconds(),
+            User        = user,
+            Uid         = uploaderId,
+            TimeStamp   = DateTimeOffset.Now.ToUnixTimeMilliseconds(),
             FollowerNum = uploaderInfo.Data.Follower,
-            ArchiveNum = uploaderInfo.Data.ArchiveCount,
-            LikeNum = uploaderInfo.Data.LikeNum,
+            ArchiveNum  = uploaderInfo.Data.ArchiveCount,
+            LikeNum     = uploaderInfo.Data.LikeNum,
         };
 
         user.MostRecentUserRecord = userRecord;
@@ -58,10 +58,10 @@ public class FetchUploaderInfoJob(
         {
             var videoModel = new Model.Video()
             {
-                BvId = video.Bvid,
-                Title = video.Title,
-                Description = video.Description,
-                CoverUrl = video.Pic,
+                BvId            = video.Bvid,
+                Title           = video.Title,
+                Description     = video.Description,
+                CoverUrl        = video.Pic,
                 UploadTimeStamp = video.Created,
             };
 
@@ -69,7 +69,8 @@ public class FetchUploaderInfoJob(
         }
 
 
-        var existingVideos = await dbContext.Videos.Where(v => videos.Select(v => v.BvId).Contains(v.BvId)).ToListAsync();
+        var existingVideos =
+            await dbContext.Videos.Where(v => videos.Select(v => v.BvId).Contains(v.BvId)).ToListAsync();
 
         foreach (var video in videos)
         {
@@ -82,7 +83,5 @@ public class FetchUploaderInfoJob(
         }
 
         await dbContext.SaveChangesAsync();
-
-        // return Task.CompletedTask;
     }
 }

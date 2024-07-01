@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace BiliBiliApi.Models.Web_Interface;
+namespace BiliBiliApi.Web_Interface;
 
 /// <summary>
 /// <para>用户名片信息</para>
@@ -12,7 +12,7 @@ namespace BiliBiliApi.Models.Web_Interface;
 /// <doc>
 /// https://socialsisteryi.github.io/bilibili-API-collect/docs/user/info.html#%E7%94%A8%E6%88%B7%E5%90%8D%E7%89%87%E4%BF%A1%E6%81%AF
 /// </doc>
-public abstract partial class Card
+public abstract class Card
 {
 	[Serializable]
 	public record Response : BaseResponse

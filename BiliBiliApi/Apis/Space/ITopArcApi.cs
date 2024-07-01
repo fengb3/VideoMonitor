@@ -1,8 +1,7 @@
 using BiliBiliApi.Attributes;
-using BiliBiliApi.Models.Space.Arc;
 using WebApiClientCore.Attributes;
 
-namespace BiliBiliApi.Apis.Space;
+namespace BiliBiliApi.Space;
 
 // [HttpHost("https://api.bilibili.com")]
 public interface ITopArcApi
@@ -11,13 +10,13 @@ public interface ITopArcApi
     Task<string> SpaceTopArc([PathQuery] int vmid);
 
     [HttpPost("/x/space/top/arc/set")]
-    Task<object> SpaceTopArcSet([PathQuery] int aid,
+    Task<object> SpaceTopArcSet([PathQuery] int    aid,
                                 [PathQuery] string bvid,
                                 [PathQuery] string reason,
                                 [PathQuery] string csrf);
 
     [HttpPost("/x/space/top/arc/del")]
-    Task<object> SpaceTopArcDel([PathQuery] int aid,
+    Task<object> SpaceTopArcDel([PathQuery] int    aid,
                                 [PathQuery] string bvid,
                                 [PathQuery] string csrf);
 }
@@ -37,12 +36,12 @@ public interface IArcApi
     /// <returns></returns>
     [HttpGet("/x/space/wbi/arc/search")]
     [WbiSign]
-    Task<Search.Response> SpaceArcSearch([PathQuery] long mid,
-                                         [PathQuery] string? order = null,
-                                         [PathQuery] int? tid = null,
-                                         [PathQuery] string? keyword = null,
-                                         [PathQuery] int? pn = null,
-                                         [PathQuery] int? ps = null);
+    Task<Arc.Search.Response> SpaceArcSearch([PathQuery] long   mid,
+                                             [PathQuery] string order   = null,
+                                             [PathQuery] int?   tid     = null,
+                                             [PathQuery] string keyword = null,
+                                             [PathQuery] int?   pn      = null,
+                                             [PathQuery] int?   ps      = null);
 }
 
 // [HttpHost("https://api.bilibili.com")]
@@ -55,5 +54,5 @@ public interface IAccApi
     /// <returns></returns>
     [HttpGet("/x/space/wbi/acc/info")]
     [WbiSign]
-    Task<object> SpaceAccInfo([PathQuery] int mid);
+    Task<Acc.Info.Response> SpaceAccInfo([PathQuery] int mid);
 }

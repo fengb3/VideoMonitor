@@ -1,7 +1,7 @@
 ﻿
 using System.Text.Json.Serialization;
 
-namespace BiliBiliApi.Models.Web_Interface.View;
+namespace BiliBiliApi.Web_Interface;
 
 /// <summary>
 /// <para>获取视频详细信息(web端)</para>

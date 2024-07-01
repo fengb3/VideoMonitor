@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace BiliBiliApi.Models;
+namespace BiliBiliApi;
 
 [Serializable]
 public record BaseResponse
@@ -23,31 +23,4 @@ public record BaseResponse
     /// </summary>
     [JsonPropertyName("ttl")]
     public int    Ttl     { get; init; } = 0;
-}
-
-[Serializable]
-public record WbiResponse : BaseResponse
-{
-    [JsonPropertyName("data")]
-    public WbiData? Data { get; set; }
-
-    [Serializable]
-    public class WbiData
-    {
-        [JsonPropertyName("isLogin")]
-        public bool IsLogin { get; set; }
-        
-        [JsonPropertyName("wbi_img")]
-        public WbiImg? WbiImg { get; set; }
-    }
-
-    [Serializable]
-    public class WbiImg
-    {
-        [JsonPropertyName("img_url")]
-        public string? ImgUrl { get; set; }
-        
-        [JsonPropertyName("sub_url")]
-        public string? SubUrl { get; set; } 
-    }
 }
