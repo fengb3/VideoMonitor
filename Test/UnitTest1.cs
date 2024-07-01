@@ -1,9 +1,10 @@
-using MyBiliBiliMonitor_2;
 using Lib;
 using Lib.API;
 using Lib.Tool;
+using MyBiliBiliMonitor_2;
+using Test;
 
-namespace Test;
+namespace VideoMonitor.Test;
 
 public class Tests
 {

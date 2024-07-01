@@ -12,7 +12,7 @@ namespace BiliBiliApi.Models.Web_Interface;
 /// <doc>
 /// https://socialsisteryi.github.io/bilibili-API-collect/docs/user/info.html#%E7%94%A8%E6%88%B7%E5%90%8D%E7%89%87%E4%BF%A1%E6%81%AF
 /// </doc>
-public abstract class Card
+public abstract partial class Card
 {
 	[Serializable]
 	public record Response : BaseResponse
@@ -80,34 +80,87 @@ public abstract class Card
 		public Uri LImg { get; init; } // Assuming this is a large image URL
 	}
 
-	[Serializable]
+    /*
+		| 字段            | 类型  | 内容           | 备注                                                         |
+		| --------------- | ----- | -------------- | ------------------------------------------------------------ |
+		| mid             | str   | 用户mid        |                                                              |
+		| approve         | bool  | false          | **作用尚不明确**                                             |
+		| name            | str   | 用户昵称       |                                                              |
+		| sex             | str   | 用户性别       | 男 女 保密                                                   |
+		| face            | str   | 用户头像链接   |                                                              |
+		| DisplayRank     | str   | 0              | **作用尚不明确**                                             |
+		| regtime         | num   | 0              | **作用尚不明确**                                             |
+		| spacesta        | num   | 用户状态       | 0：正常<br />-2：被封禁                                      |
+		| birthday        | str   | 空             | **作用尚不明确**                                             |
+		| place           | str   | 空             | **作用尚不明确**                                             |
+		| description     | str   | 空             | **作用尚不明确**                                             |
+		| article         | num   | 0              | **作用尚不明确**                                             |
+		| attentions      | array | 空             | **作用尚不明确**                                             |
+		| fans            | num   | 粉丝数         |                                                              |
+		| friend          | num   | 关注数         |                                                              |
+		| attention       | num   | 关注数         |                                                              |
+		| sign            | str   | 签名           |                                                              |
+		| level_info      | obj   | 等级           |                                                              |
+		| pendant         | obj   | 挂件           |                                                              |
+		| nameplate       | obj   | 勋章           |                                                              |
+		| Official        | obj   | 认证信息       |                                                              |
+		| official_verify | obj   | 认证信息2      |                                                              |
+		| vip             | obj   | 大会员状态     |                                                              |
+		| space           | obj   | 主页头图       |                                                              |
+	*/
+    [Serializable]
 	public record CardInfo
 	{
-		[JsonPropertyName("mid")]
+
+        /// <summary>
+        /// 用户mid
+        /// </summary>
+        [JsonPropertyName("mid")]
 		public string Mid { get; init; }
 
-		[JsonPropertyName("name")]
+        /// <summary>
+        /// 用户昵称
+        /// </summary>
+        [JsonPropertyName("name")]
 		public string Name { get; init; }
 
+		/// <summary>
+		/// false
+		/// </summary>
 		[JsonPropertyName("approve")]
 		public bool Approve { get; init; }
 
-		[JsonPropertyName("sex")]
+        /// <summary>
+        /// 用户性别
+        /// </summary>
+        [JsonPropertyName("sex")]
 		public string Sex { get; init; }
 
 		[JsonPropertyName("rank")]
 		public string Rank { get; init; }
 
+		/// <summary>
+		/// 头像链接
+		/// </summary>
 		[JsonPropertyName("face")]
 		public Uri Face { get; init; }
 
+		/// <summary>
+		/// 0
+		/// </summary>
 		[JsonPropertyName("DisplayRank")]
 		public string DisplayRank { get; init; }
 
+		/// <summary>
+		/// 0
+		/// </summary>
 		[JsonPropertyName("regtime")]
 		public long Regtime { get; init; }
 
-		[JsonPropertyName("spacesta")]
+        /// <summary>
+        /// 用户状态
+        /// </summary>
+        [JsonPropertyName("spacesta")]
 		public int Spacesta { get; init; }
 
 		[JsonPropertyName("birthday")]
@@ -125,34 +178,64 @@ public abstract class Card
 		[JsonPropertyName("attentions")]
 		public int[] Attentions { get; init; }
 
+		/// <summary>
+		/// 粉丝数
+		/// </summary>
 		[JsonPropertyName("fans")]
 		public int Fans { get; init; }
 
-		[JsonPropertyName("friend")]
+        /// <summary>
+        /// 关注数
+        /// </summary>
+        [JsonPropertyName("friend")]
 		public int Friend { get; init; }
 
-		[JsonPropertyName("attention")]
+        /// <summary>
+        /// 关注数
+        /// </summary>
+        [JsonPropertyName("attention")]
 		public int Attention { get; init; }
 
-		[JsonPropertyName("sign")]
+        /// <summary>
+        /// 签名
+        /// </summary>
+        [JsonPropertyName("sign")]
 		public string Sign { get; init; }
 
-		[JsonPropertyName("level_info")]
+        /// <summary>
+        /// 等级
+        /// </summary>
+        [JsonPropertyName("level_info")]
 		public LevelInfo LevelInfo { get; init; }
 
-		[JsonPropertyName("pendant")]
+        /// <summary>
+        /// 挂件
+        /// </summary>
+        [JsonPropertyName("pendant")]
 		public PendantInfo Pendant { get; init; }
 
-		[JsonPropertyName("nameplate")]
+        /// <summary>
+        /// 勋章
+        /// </summary>
+        [JsonPropertyName("nameplate")]
 		public NameplateInfo Nameplate { get; init; }
 
-		[JsonPropertyName("Official")]
+        /// <summary>
+        /// 认证信息  
+        /// </summary>
+        [JsonPropertyName("Official")]
 		public OfficialInfo Official { get; init; }
 
-		[JsonPropertyName("official_verify")]
+        /// <summary>
+        /// 认证信息2
+        /// </summary>
+        [JsonPropertyName("official_verify")]
 		public OfficialVerifyInfo OfficialVerify { get; init; }
 
-		[JsonPropertyName("vip")]
+        /// <summary>
+        /// 大会员状态 
+        /// </summary>
+        [JsonPropertyName("vip")]
 		public VipInfo Vip { get; init; }
 	}
 

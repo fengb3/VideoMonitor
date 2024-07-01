@@ -25,8 +25,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoMonitor.AppHost", "Vid
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoMonitor.ServiceDefaults", "VideoMonitor.ServiceDefaults\VideoMonitor.ServiceDefaults.csproj", "{96A49DF9-03C2-4B1E-AB40-E78E85722047}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoMonitor.Test2", "VideoMonitor.Test2\VideoMonitor.Test2.csproj", "{FA1892E7-0183-4AC7-96FF-F585B0FAD7A3}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,10 +59,6 @@ Global
 		{96A49DF9-03C2-4B1E-AB40-E78E85722047}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96A49DF9-03C2-4B1E-AB40-E78E85722047}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{96A49DF9-03C2-4B1E-AB40-E78E85722047}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FA1892E7-0183-4AC7-96FF-F585B0FAD7A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FA1892E7-0183-4AC7-96FF-F585B0FAD7A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FA1892E7-0183-4AC7-96FF-F585B0FAD7A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FA1892E7-0183-4AC7-96FF-F585B0FAD7A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
